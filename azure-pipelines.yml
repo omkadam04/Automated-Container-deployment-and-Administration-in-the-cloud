@@ -1,41 +1,19 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
-  branches:
-    include:
-      - main  # Adjust based on your branch
+- main
 
 pool:
-  vmImage: 'ubuntu-latest'
-
-variables:
-  IMAGE_NAME: 'app'  # Change this to your app name
-  ACR_NAME: 'container'  # Azure Container Registry name
-  RESOURCE_GROUP: 'your-resource-group'
-  APP_SERVICE_NAME: 'your-app-service-name'
+  vmImage: ubuntu-latest
 
 steps:
-  - task: Checkout@1
-    displayName: "Clone repository"
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
 
-  - task: Docker@2
-    displayName: "Build Docker Image"
-    inputs:
-      command: build
-      repository: $(ACR_NAME).azurecr.io/$(IMAGE_NAME)
-      dockerfile: Dockerfile
-      buildContext: .
-      tags: latest
-
-  - task: Docker@2
-    displayName: "Push Docker Image to ACR"
-    inputs:
-      command: push
-      repository: $(ACR_NAME).azurecr.io/$(IMAGE_NAME)
-      tags: latest
-
-  - task: AzureWebAppContainer@1
-    displayName: "Deploy to Azure App Service"
-    inputs:
-      azureSubscription: '<Azure-Service-Connection>'
-      appName: $(APP_SERVICE_NAME)
-      imageName: $(ACR_NAME).azurecr.io/$(IMAGE_NAME):latest
-
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
